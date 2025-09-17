@@ -1,7 +1,7 @@
-import 'package:awesome_datetime_picker/src/theme/item_theme.dart';
+import 'package:gx_datetime_picker/src/theme/item_theme.dart';
 
 /// Theme for the time picker, allowing customization of hour and minute items.
-class AwesomeTimePickerTheme {
+class GXTimePickerTheme {
   /// The theme for the hour item in the time picker.
   /// It customizes the appearance of the hour picker element.
   final ItemTheme? hourTheme;
@@ -14,6 +14,6 @@ class AwesomeTimePickerTheme {
   /// It customizes the appearance of the AM/PM picker element.
   final ItemTheme? ampmTheme;
 
-  const AwesomeTimePickerTheme(
+  const GXTimePickerTheme(
       {this.hourTheme, this.minuteTheme, this.ampmTheme});
 }

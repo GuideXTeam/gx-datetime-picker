@@ -1,4 +1,4 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,31 +34,31 @@ class _CalendarState extends State<Calendar> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
-          AwesomeDatePicker(
-            dateFormat: AwesomeDateFormat.dMMy,
-            minDate: AwesomeDate(year: 2024, month: 2, day: 15),
-            maxDate: AwesomeDate(year: 2026, month: 10, day: 10),
-            onChanged: (AwesomeDate date) {
+          GXDatePicker(
+            dateFormat: GXDateFormat.dMMyShort,
+            minDate: GXDate(year: 2024, month: 2, day: 15),
+            maxDate: GXDate(year: 2026, month: 10, day: 10),
+            onChanged: (GXDate date) {
               print(
                   "----Date changed : ${date.day}/${date.month}/${date.year}\n");
             },
           ),
-          AwesomeTimePicker(
-            timeFormat: AwesomeTimeFormat.hm,
-            minTime: AwesomeTime(hour: 5, minute: 20),
-            maxTime: AwesomeTime(hour: 15, minute: 15),
-            initialTime: AwesomeTime(hour: 8, minute: 10),
-            onChanged: (AwesomeTime time) {
+          GXTimePicker(
+            timeFormat: GXTimeFormat.hm,
+            minTime: GXTime(hour: 0, minute: 0),
+            maxTime: GXTime(hour: 17, minute: 00),
+            initialTime: GXTime(hour: 8, minute: 10),
+            onChanged: (GXTime time) {
               print("----Time changed : ${time.hour}:${time.minute}\n");
             },
           ),
-          AwesomeDateTimePicker(
-            //dateFormat: AwesomeDateFormat.dMMy,
-            //timeFormat: AwesomeTimeFormat.Hm,
-            maxDateTime: AwesomeDateTime(
-                date: AwesomeDate(year: 2025, month: 12, day: 10),
-                time: AwesomeTime(hour: 15, minute: 59)),
-            onChanged: (AwesomeDateTime dateTime) {
+          GXDateTimePicker(
+            dateFormat: GXDateFormat.dMMyShort,
+            timeFormat: GXTimeFormat.hm,
+            maxDateTime: GXDateTime(
+                date: GXDate(year: 2025, month: 12, day: 10),
+                time: GXTime(hour: 15, minute: 59)),
+            onChanged: (GXDateTime dateTime) {
               print(
                   "----Date time changed : ${dateTime.date.year}/${dateTime.date.month}/${dateTime.date.day} ${dateTime.time.hour}:${dateTime.time.minute}\n");
             },

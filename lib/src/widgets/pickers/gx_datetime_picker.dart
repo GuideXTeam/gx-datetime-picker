@@ -1,16 +1,16 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
-import 'package:awesome_datetime_picker/src/controllers/awesome_datetime_picker_controller.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
+import 'package:gx_datetime_picker/src/controllers/gx_datetime_picker_controller.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeDateTimePicker extends StatefulWidget {
-  const AwesomeDateTimePicker({
+class GXDateTimePicker extends StatefulWidget {
+  const GXDateTimePicker({
     super.key,
     this.minDateTime,
     this.maxDateTime,
     this.initialDateTime,
     this.locale = LocaleType.en,
-    this.dateFormat = AwesomeDateFormat.dMy,
-    this.timeFormat = AwesomeTimeFormat.Hm,
+    this.dateFormat = GXDateFormat.dMy,
+    this.timeFormat = GXTimeFormat.Hm,
     this.theme,
     this.onChanged,
     this.backgroundColor,
@@ -24,28 +24,28 @@ class AwesomeDateTimePicker extends StatefulWidget {
   });
 
   /// The minimum selectable date and time for the date-time picker (default 1/1/1900 00:00).
-  final AwesomeDateTime? minDateTime;
+  final GXDateTime? minDateTime;
 
   /// The maximum selectable date and time for the date-time picker (default 31/12/2100 23:59).
-  final AwesomeDateTime? maxDateTime;
+  final GXDateTime? maxDateTime;
 
   /// The initial date and time displayed when the picker is first shown (default current date and time).
-  final AwesomeDateTime? initialDateTime;
+  final GXDateTime? initialDateTime;
 
   /// The locale to use for displaying the date format (default [LocaleType.en].
   final LocaleType locale;
 
-  /// The format of the date to be displayed in the picker (default [AwesomeDateFormat.dMy]).
-  final AwesomeDateFormat dateFormat;
+  /// The format of the date to be displayed in the picker (default [GXDateFormat.dMy]).
+  final GXDateFormat dateFormat;
 
-  /// The format of the time to be displayed in the picker (default [AwesomeTimeFormat.Hm]).
-  final AwesomeTimeFormat timeFormat;
+  /// The format of the time to be displayed in the picker (default [GXTimeFormat.Hm]).
+  final GXTimeFormat timeFormat;
 
   /// The theme for customizing the appearance of the date-time picker (year, month, day, hour, minute themes).
-  final AwesomeDateTimePickerTheme? theme;
+  final GXDateTimePickerTheme? theme;
 
   /// A callback function that is triggered when the selected date or time changes.
-  final ValueChanged<AwesomeDateTime>? onChanged;
+  final ValueChanged<GXDateTime>? onChanged;
 
   /// The background color of the date-time picker.
   /// This value is overridden by the value passed in the theme's backgroundColor property.
@@ -77,35 +77,35 @@ class AwesomeDateTimePicker extends StatefulWidget {
   final double? itemWidth;
 
   @override
-  State<AwesomeDateTimePicker> createState() => _AwesomeDateTimePickerState();
+  State<GXDateTimePicker> createState() => _GXDateTimePickerState();
 }
 
-class _AwesomeDateTimePickerState extends State<AwesomeDateTimePicker> {
-  late final AwesomeDateTimePickerController _controller;
-  late AwesomeDateTime initialDateTime;
+class _GXDateTimePickerState extends State<GXDateTimePicker> {
+  late final GXDateTimePickerController _controller;
+  late GXDateTime initialDateTime;
 
   @override
   void initState() {
     super.initState();
 
     initialDateTime = widget.initialDateTime ??
-        AwesomeDateTime(
-            date: AwesomeDate(
+        GXDateTime(
+            date: GXDate(
                 year: DateTime.now().year,
                 month: DateTime.now().month,
                 day: DateTime.now().day),
-            time: AwesomeTime(
+            time: GXTime(
                 hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute));
 
-    _controller = AwesomeDateTimePickerController(
+    _controller = GXDateTimePickerController(
       minDateTime: widget.minDateTime ??
-          AwesomeDateTime(
-              date: AwesomeDate(year: 1900, month: 1, day: 1),
-              time: AwesomeTime(hour: 00, minute: 00)),
+          GXDateTime(
+              date: GXDate(year: 1900, month: 1, day: 1),
+              time: GXTime(hour: 00, minute: 00)),
       maxDateTime: widget.maxDateTime ??
-          AwesomeDateTime(
-              date: AwesomeDate(year: 2100, month: 12, day: 31),
-              time: AwesomeTime(hour: 23, minute: 59)),
+          GXDateTime(
+              date: GXDate(year: 2100, month: 12, day: 31),
+              time: GXTime(hour: 23, minute: 59)),
       initialDateTime: initialDateTime,
     );
 
@@ -117,10 +117,13 @@ class _AwesomeDateTimePickerState extends State<AwesomeDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
+    print("For Datetiem picker");
+    print("Max Time: ${_controller.maxTime}, Min Time : ${_controller.minTime}");
+    print("The Date for this: ${_controller.selectedDateTime}");
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AwesomeDatePicker(
+        GXDatePicker(
           theme: widget.theme?.datePickerTheme,
           backgroundColor: widget.backgroundColor,
           dateFormat: widget.dateFormat,
@@ -135,15 +138,15 @@ class _AwesomeDateTimePickerState extends State<AwesomeDateTimePicker> {
           visibleItemCount: widget.visibleItemCount,
           itemHeight: widget.itemHeight,
           itemWidth: widget.itemWidth,
-          onChanged: (AwesomeDate date) => _controller.setDate(date),
+          onChanged: (GXDate date) => _controller.setDate(date),
         ),
-        AwesomeTimePicker(
+        GXTimePicker(
           theme: widget.theme?.timePickerTheme,
           backgroundColor: widget.backgroundColor,
           timeFormat: widget.timeFormat,
           maxTime: _controller.maxTime,
           minTime: _controller.minTime,
-          initialTime: initialDateTime.time,
+          initialTime: _controller.selectedDateTime.time,
           selectorColor: widget.selectorColor,
           fadeEffect: widget.fadeEffect,
           selectedTextStyle: widget.selectedTextStyle,
@@ -151,7 +154,7 @@ class _AwesomeDateTimePickerState extends State<AwesomeDateTimePicker> {
           visibleItemCount: widget.visibleItemCount,
           itemHeight: widget.itemHeight,
           itemWidth: widget.itemWidth,
-          onChanged: (AwesomeTime time) => _controller.setTime(time),
+          onChanged: (GXTime time) => _controller.setTime(time),
         ),
       ],
     );

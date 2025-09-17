@@ -1,25 +1,25 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeDateTimePickerController extends ChangeNotifier {
-  final AwesomeDateTime minDateTime;
-  final AwesomeDateTime maxDateTime;
+class GXDateTimePickerController extends ChangeNotifier {
+  final GXDateTime minDateTime;
+  final GXDateTime maxDateTime;
 
-  late AwesomeDateTime _selectedDateTime;
-  AwesomeDateTime get selectedDateTime => _selectedDateTime;
+  late GXDateTime _selectedDateTime;
+  GXDateTime get selectedDateTime => _selectedDateTime;
 
-  AwesomeDateTimePickerController({
+  GXDateTimePickerController({
     required this.minDateTime,
     required this.maxDateTime,
-    AwesomeDateTime? initialDateTime,
+    GXDateTime? initialDateTime,
   }) {
     _selectedDateTime = initialDateTime ?? minDateTime;
     _clampDateTime();
   }
 
   // Central update method
-  void _setDateTime(AwesomeDate date, AwesomeTime time) {
-    _selectedDateTime = AwesomeDateTime(date: date, time: time);
+  void _setDateTime(GXDate date, GXTime time) {
+    _selectedDateTime = GXDateTime(date: date, time: time);
     _clampDateTime();
     notifyListeners();
   }
@@ -56,24 +56,24 @@ class AwesomeDateTimePickerController extends ChangeNotifier {
   }
 
   // Public setters
-  void setDate(AwesomeDate date) {
+  void setDate(GXDate date) {
     _setDateTime(date, _selectedDateTime.time);
   }
 
-  void setTime(AwesomeTime time) {
+  void setTime(GXTime time) {
     _setDateTime(_selectedDateTime.date, time);
   }
 
   // Dynamic min/max time based on current date
-  AwesomeTime get minTime {
+  GXTime get minTime {
     return _selectedDateTime.date == minDateTime.date
         ? minDateTime.time
-        : AwesomeTime(hour: 0, minute: 0);
+        : GXTime(hour: 0, minute: 0);
   }
 
-  AwesomeTime get maxTime {
+  GXTime get maxTime {
     return _selectedDateTime.date == maxDateTime.date
         ? maxDateTime.time
-        : AwesomeTime(hour: 23, minute: 59);
+        : GXTime(hour: 23, minute: 59);
   }
 }

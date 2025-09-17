@@ -1,7 +1,7 @@
-import 'package:awesome_datetime_picker/src/theme/item_theme.dart';
+import 'package:gx_datetime_picker/src/theme/item_theme.dart';
 
 /// Theme for the date picker, allowing customization of the year, month, and day items.
-class AwesomeDatePickerTheme {
+class GXDatePickerTheme {
   /// The theme for the year item in the date picker.
   /// It customizes the appearance of the year picker element.
   final ItemTheme? yearTheme;
@@ -14,6 +14,6 @@ class AwesomeDatePickerTheme {
   /// It customizes the appearance of the day picker element.
   final ItemTheme? dayTheme;
 
-  const AwesomeDatePickerTheme(
+  const GXDatePickerTheme(
       {this.yearTheme, this.monthTheme, this.dayTheme});
 }

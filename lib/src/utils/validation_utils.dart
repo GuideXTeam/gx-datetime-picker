@@ -1,8 +1,8 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
 
 class ValidationUtils {
   static bool isValidTimeRange(
-      {required AwesomeTime? minTime, required AwesomeTime? maxTime}) {
+      {required GXTime? minTime, required GXTime? maxTime}) {
     final minDateTime =
         DateTime(2025, 1, 1, minTime?.hour ?? 00, minTime?.minute ?? 00);
     final maxDateTime =
@@ -12,9 +12,9 @@ class ValidationUtils {
   }
 
   static bool isValidInitialTime({
-    AwesomeTime? time,
-    AwesomeTime? minTime,
-    AwesomeTime? maxTime,
+    GXTime? time,
+    GXTime? minTime,
+    GXTime? maxTime,
   }) {
     final timeDateTime = DateTime(2025, 1, 1, time?.hour ?? DateTime.now().hour,
         time?.minute ?? DateTime.now().minute);
@@ -31,7 +31,7 @@ class ValidationUtils {
   }
 
   static bool isValidDateRange(
-      {required AwesomeDate? minDate, required AwesomeDate? maxDate}) {
+      {required GXDate? minDate, required GXDate? maxDate}) {
     final minDateTime = DateTime(
       minDate?.year ?? 1900,
       minDate?.month ?? 1,
@@ -47,9 +47,9 @@ class ValidationUtils {
   }
 
   static bool isValidInitialDate({
-    AwesomeDate? date,
-    AwesomeDate? minDate,
-    AwesomeDate? maxDate,
+    GXDate? date,
+    GXDate? minDate,
+    GXDate? maxDate,
   }) {
     final timeDateTime = DateTime(
       date?.year ?? DateTime.now().year,

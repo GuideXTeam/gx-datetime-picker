@@ -1,7 +1,7 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeDateUtils {
+class GXDateUtils {
   static List<String> getMonthNames(LocaleType locale) {
     switch (locale) {
       case LocaleType.en:
@@ -93,6 +93,101 @@ class AwesomeDateUtils {
           'أكتوبر',
           'نوفمبر',
           'ديسمبر'
+        ];
+    }
+  }
+
+  static List<String> getShortMonthNames(LocaleType locale) {
+    switch (locale) {
+      case LocaleType.en:
+        return [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec'
+        ];
+      case LocaleType.fr:
+        return [
+          'Jan',
+          'Fév',
+          'Mar',
+          'Avr',
+          'Mai',
+          'Jun',
+          'Jul',
+          'Aoû',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Déc'
+        ];
+      case LocaleType.de:
+        return [
+          'Jan',
+          'Feb',
+          'Mär',
+          'Apr',
+          'Mai',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Okt',
+          'Nov',
+          'Dez'
+        ];
+      case LocaleType.es:
+        return [
+          'Ene',
+          'Feb',
+          'Mar',
+          'Abr',
+          'May',
+          'Jun',
+          'Jul',
+          'Ago',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dic'
+        ];
+      case LocaleType.it:
+        return [
+          'Gen',
+          'Feb',
+          'Mar',
+          'Apr',
+          'Mag',
+          'Giu',
+          'Lug',
+          'Ago',
+          'Set',
+          'Ott',
+          'Nov',
+          'Dic'
+        ];
+      case LocaleType.ar:
+        return [
+          'ينا',
+          'فبر',
+          'مار',
+          'أبر',
+          'ماي',
+          'يون',
+          'يول',
+          'أغس',
+          'سبت',
+          'أكت',
+          'نوف',
+          'ديس'
         ];
     }
   }

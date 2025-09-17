@@ -1,20 +1,20 @@
-import 'package:awesome_datetime_picker/src/controllers/awesome_time_picker_controller.dart';
-import 'package:awesome_datetime_picker/src/data/format.dart';
-import 'package:awesome_datetime_picker/src/data/picker_type.dart';
-import 'package:awesome_datetime_picker/src/models/awesome_time.dart';
-import 'package:awesome_datetime_picker/src/theme/awesome_time_picker_theme.dart';
-import 'package:awesome_datetime_picker/src/utils/awesome_time_utils.dart';
-import 'package:awesome_datetime_picker/src/utils/validation_utils.dart';
-import 'package:awesome_datetime_picker/src/widgets/custom/custom_item_picker_widget.dart';
+import 'package:gx_datetime_picker/src/controllers/gx_time_picker_controller.dart';
+import 'package:gx_datetime_picker/src/data/format.dart';
+import 'package:gx_datetime_picker/src/data/picker_type.dart';
+import 'package:gx_datetime_picker/src/models/gx_time.dart';
+import 'package:gx_datetime_picker/src/theme/gx_time_picker_theme.dart';
+import 'package:gx_datetime_picker/src/utils/gx_time_utils.dart';
+import 'package:gx_datetime_picker/src/utils/validation_utils.dart';
+import 'package:gx_datetime_picker/src/widgets/custom/custom_item_picker_widget.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeTimePicker extends StatefulWidget {
-  AwesomeTimePicker({
+class GXTimePicker extends StatefulWidget {
+  GXTimePicker({
     super.key,
     this.minTime,
     this.maxTime,
     this.initialTime,
-    this.timeFormat = AwesomeTimeFormat.Hm,
+    this.timeFormat = GXTimeFormat.Hm,
     this.theme,
     this.onChanged,
     this.backgroundColor,
@@ -36,22 +36,22 @@ class AwesomeTimePicker extends StatefulWidget {
         );
 
   /// The minimum selectable time for the time picker (default 00:00).
-  final AwesomeTime? minTime;
+  final GXTime? minTime;
 
   /// The maximum selectable time for the time picker (default 23:59).
-  final AwesomeTime? maxTime;
+  final GXTime? maxTime;
 
   /// The initial time displayed when the picker is first shown (default current time).
-  final AwesomeTime? initialTime;
+  final GXTime? initialTime;
 
-  /// The format of the time to be displayed in the picker (default [AwesomeTimeFormat.Hm]).
-  final AwesomeTimeFormat timeFormat;
+  /// The format of the time to be displayed in the picker (default [GXTimeFormat.Hm]).
+  final GXTimeFormat timeFormat;
 
   /// The theme for customizing the appearance of the time picker (hour, minute themes).
-  final AwesomeTimePickerTheme? theme;
+  final GXTimePickerTheme? theme;
 
   /// A callback function that is triggered when the selected time changes.
-  final ValueChanged<AwesomeTime>? onChanged;
+  final ValueChanged<GXTime>? onChanged;
 
   /// The background color of the time picker.
   /// This value is overridden by the value passed in the theme's backgroundColor property.
@@ -83,21 +83,21 @@ class AwesomeTimePicker extends StatefulWidget {
   final double? itemWidth;
 
   @override
-  State<AwesomeTimePicker> createState() => _AwesomeTimePickerState();
+  State<GXTimePicker> createState() => _GXTimePickerState();
 }
 
-class _AwesomeTimePickerState extends State<AwesomeTimePicker> {
-  late final AwesomeTimePickerController _controller;
+class _GXTimePickerState extends State<GXTimePicker> {
+  late final GXTimePickerController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AwesomeTimePickerController(
-      minTime: widget.minTime ?? AwesomeTime(hour: 00, minute: 00),
-      maxTime: widget.maxTime ?? AwesomeTime(hour: 23, minute: 59),
+    _controller = GXTimePickerController(
+      minTime: widget.minTime ?? GXTime(hour: 00, minute: 00),
+      maxTime: widget.maxTime ?? GXTime(hour: 23, minute: 59),
       initialTime: widget.initialTime ??
-          AwesomeTime(
+          GXTime(
               hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute),
     );
 
@@ -108,21 +108,47 @@ class _AwesomeTimePickerState extends State<AwesomeTimePicker> {
   }
 
   @override
+  void didUpdateWidget(covariant GXTimePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final previousMin = _resolveMinTime(oldWidget.minTime);
+    final previousMax = _resolveMaxTime(oldWidget.maxTime);
+    final nextMin = _resolveMinTime(widget.minTime);
+    final nextMax = _resolveMaxTime(widget.maxTime);
+
+    if (previousMin != nextMin || previousMax != nextMax) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _controller.updateConstraints(minTime: nextMin, maxTime: nextMax);
+      });
+    }
+  }
+
+  GXTime _resolveMinTime(GXTime? candidate) =>
+      candidate ?? GXTime(hour: 00, minute: 00);
+
+  GXTime _resolveMaxTime(GXTime? candidate) =>
+      candidate ?? GXTime(hour: 23, minute: 59);
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.timeFormat.value.length, (index) {
         if (widget.timeFormat.value[index] == PickerType.hour_12) {
           return CustomItemPicker(
-            key: ValueKey(_controller.selectedAmPm == AwesomeTimeUtils.amPm[0]
+            key: ValueKey(_controller.selectedAmPm == GXTimeUtils.amPm[0]
                 ? "hour_picker 1"
                 : "hour_picker 2"),
             items: _controller.amPmHours,
-            initialIndex: _controller.amPmHours.indexOf(
-                AwesomeTimeUtils.convertTo12HourFormat(
-                        _controller.selectedTime.hour)
-                    .toString()),
-            theme: widget.theme?.minuteTheme,
+            initialIndex: () {
+              final hourString = GXTimeUtils
+                  .convertTo12HourFormat(_controller.selectedTime.hour)
+                  .toString();
+              final index = _controller.amPmHours.indexOf(hourString);
+              return index >= 0 ? index : 0;
+            }(),
+            theme: widget.theme?.hourTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
             fadeEffect: widget.fadeEffect,
@@ -140,8 +166,8 @@ class _AwesomeTimePickerState extends State<AwesomeTimePicker> {
         } else if (widget.timeFormat.value[index] == PickerType.hour_24) {
           return CustomItemPicker(
             items: _controller.hours,
-            initialIndex: _controller.hours
-                .indexOf(_controller.selectedTime.hour.toString()),
+            initialIndex: _controller.hours.indexOf(
+                _controller.selectedTime.hour.toString().padLeft(2, '0')),
             theme: widget.theme?.hourTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
@@ -166,8 +192,8 @@ class _AwesomeTimePickerState extends State<AwesomeTimePicker> {
                         ? "minute_picker 2"
                         : "minute_picker 3"),
             items: _controller.minutes,
-            initialIndex: _controller.minutes
-                .indexOf(_controller.selectedTime.minute.toString()),
+            initialIndex: _controller.minutes.indexOf(
+                _controller.selectedTime.minute.toString().padLeft(2, '0')),
             theme: widget.theme?.minuteTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
@@ -187,8 +213,8 @@ class _AwesomeTimePickerState extends State<AwesomeTimePicker> {
           return CustomItemPicker(
             items: _controller.amPm,
             initialIndex:
-                AwesomeTimeUtils.amPm.indexOf(_controller.selectedAmPm),
-            theme: widget.theme?.minuteTheme,
+                GXTimeUtils.amPm.indexOf(_controller.selectedAmPm),
+            theme: widget.theme?.ampmTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
             fadeEffect: widget.fadeEffect,

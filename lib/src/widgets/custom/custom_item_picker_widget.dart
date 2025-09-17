@@ -1,4 +1,4 @@
-import 'package:awesome_datetime_picker/src/theme/item_theme.dart';
+import 'package:gx_datetime_picker/src/theme/item_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomItemPicker extends StatefulWidget {
@@ -45,9 +45,13 @@ class _CustomItemPickerState extends State<CustomItemPicker> {
   @override
   void initState() {
     super.initState();
-    _selectedItem = widget.items[widget.initialIndex];
+    // Ensure initialIndex is within bounds
+    final safeIndex = widget.initialIndex >= 0 && widget.initialIndex < widget.items.length 
+        ? widget.initialIndex 
+        : 0;
+    _selectedItem = widget.items.isNotEmpty ? widget.items[safeIndex] : '';
     _scrollController = FixedExtentScrollController(
-      initialItem: widget.initialIndex,
+      initialItem: safeIndex,
     );
   }
 
