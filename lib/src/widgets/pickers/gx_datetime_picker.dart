@@ -117,9 +117,6 @@ class _GXDateTimePickerState extends State<GXDateTimePicker> {
 
   @override
   Widget build(BuildContext context) {
-    print("For Datetiem picker");
-    print("Max Time: ${_controller.maxTime}, Min Time : ${_controller.minTime}");
-    print("The Date for this: ${_controller.selectedDateTime}");
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
