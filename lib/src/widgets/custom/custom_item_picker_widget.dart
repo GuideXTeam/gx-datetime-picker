@@ -102,10 +102,11 @@ class _CustomItemPickerState extends State<CustomItemPicker> {
                     height: widget.theme?.height ??
                         widget.itemHeight ??
                         defaultItemHeight,
-                    decoration: BoxDecoration(
-                      color: widget.selectorColor ?? Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    decoration: widget.theme?.selectorDecoration ?? 
+                        BoxDecoration(
+                          color: widget.selectorColor ?? Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(0),
+                        ),
                   ),
                 ),
               ),
@@ -154,13 +155,13 @@ class _CustomItemPickerState extends State<CustomItemPicker> {
                       widget.itemHeight ??
                       defaultItemHeight,
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white,
-                          Color(0x00FFFFFF),
+                          widget.theme?.fadeFromColor ?? Colors.white,
+                          widget.theme?.fadeToColor ?? const Color(0x00FFFFFF),
                         ],
                       ),
                     ),
@@ -176,13 +177,13 @@ class _CustomItemPickerState extends State<CustomItemPicker> {
                       widget.itemHeight ??
                       defaultItemHeight,
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Colors.white,
-                          Color(0x00FFFFFF),
+                          widget.theme?.fadeFromColor ?? Colors.white,
+                          widget.theme?.fadeToColor ?? const Color(0x00FFFFFF),
                         ],
                       ),
                     ),

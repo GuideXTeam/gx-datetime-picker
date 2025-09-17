@@ -9,6 +9,9 @@ class ItemTheme {
   final Widget? title;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
+  final Color? fadeFromColor;
+  final Color? fadeToColor;
+  final Decoration? selectorDecoration;
 
   const ItemTheme({
     this.width,
@@ -19,5 +22,8 @@ class ItemTheme {
     this.title,
     this.padding,
     this.margin,
+    this.fadeFromColor,
+    this.fadeToColor,
+    this.selectorDecoration,
   });
 }
