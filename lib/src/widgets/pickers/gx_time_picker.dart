@@ -144,8 +144,7 @@ class _GXTimePickerState extends State<GXTimePicker> {
             initialIndex: () {
               final hourString = GXTimeUtils
                   .convertTo12HourFormat(_controller.selectedTime.hour)
-                  .toString()
-                  .padLeft(2, '0');
+                  .toString();
               final index = _controller.amPmHours.indexOf(hourString);
               return index >= 0 ? index : 0;
             }(),
@@ -195,7 +194,7 @@ class _GXTimePickerState extends State<GXTimePicker> {
             items: _controller.minutes,
             initialIndex: _controller.minutes.indexOf(
                 _controller.selectedTime.minute.toString().padLeft(2, '0')),
-            theme: widget.theme?.ampmTheme,
+            theme: widget.theme?.minuteTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
             fadeEffect: widget.fadeEffect,
@@ -215,7 +214,7 @@ class _GXTimePickerState extends State<GXTimePicker> {
             items: _controller.amPm,
             initialIndex:
                 GXTimeUtils.amPm.indexOf(_controller.selectedAmPm),
-            theme: widget.theme?.minuteTheme,
+            theme: widget.theme?.ampmTheme,
             backgroundColor: widget.backgroundColor,
             selectorColor: widget.selectorColor,
             fadeEffect: widget.fadeEffect,

@@ -146,7 +146,7 @@ class _GXDateTimePickerState extends State<GXDateTimePicker> {
           timeFormat: widget.timeFormat,
           maxTime: _controller.maxTime,
           minTime: _controller.minTime,
-          initialTime: initialDateTime.time,
+          initialTime: _controller.selectedDateTime.time,
           selectorColor: widget.selectorColor,
           fadeEffect: widget.fadeEffect,
           selectedTextStyle: widget.selectedTextStyle,
