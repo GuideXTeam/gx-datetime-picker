@@ -1,20 +1,20 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
-import 'package:awesome_datetime_picker/src/utils/awesome_date_utils.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
+import 'package:gx_datetime_picker/src/utils/gx_date_utils.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeDatePickerController extends ChangeNotifier {
-  final AwesomeDate minDate;
-  final AwesomeDate maxDate;
+class GXDatePickerController extends ChangeNotifier {
+  final GXDate minDate;
+  final GXDate maxDate;
   final LocaleType locale;
 
-  late AwesomeDate _selectedDate;
-  AwesomeDate get selectedDate => _selectedDate;
+  late GXDate _selectedDate;
+  GXDate get selectedDate => _selectedDate;
 
-  AwesomeDatePickerController({
+  GXDatePickerController({
     required this.minDate,
     required this.maxDate,
     required this.locale,
-    AwesomeDate? initialDate,
+    GXDate? initialDate,
   }) {
     _selectedDate = initialDate ?? minDate;
   }
@@ -26,7 +26,7 @@ class AwesomeDatePickerController extends ChangeNotifier {
     if (day > maxDay) day = maxDay;
 
     // Build new date
-    var newDate = AwesomeDate(year: year, month: month, day: day);
+    var newDate = GXDate(year: year, month: month, day: day);
 
     // Clamp to min/max range
     final minDT = DateTime(minDate.year, minDate.month, minDate.day);
@@ -55,7 +55,13 @@ class AwesomeDatePickerController extends ChangeNotifier {
 
   void onSelectedMonthNameChanged(String newValue) {
     final monthNumber =
-        AwesomeDateUtils.getMonthNames(locale).indexOf(newValue) + 1;
+        GXDateUtils.getMonthNames(locale).indexOf(newValue) + 1;
+    _setDate(_selectedDate.year, monthNumber, _selectedDate.day);
+  }
+
+  void onSelectedShortMonthNameChanged(String newValue) {
+    final monthNumber =
+        GXDateUtils.getShortMonthNames(locale).indexOf(newValue) + 1;
     _setDate(_selectedDate.year, monthNumber, _selectedDate.day);
   }
 
@@ -82,8 +88,16 @@ class AwesomeDatePickerController extends ChangeNotifier {
     int minValue = (selectedDate.year == minDate.year) ? minDate.month : 1;
     int maxValue = (selectedDate.year == maxDate.year) ? maxDate.month : 12;
 
-    final allMonthsNames = AwesomeDateUtils.getMonthNames(locale);
+    final allMonthsNames = GXDateUtils.getMonthNames(locale);
     return allMonthsNames.sublist(minValue - 1, maxValue);
+  }
+
+  List<String> get shortMonthsNames {
+    int minValue = (selectedDate.year == minDate.year) ? minDate.month : 1;
+    int maxValue = (selectedDate.year == maxDate.year) ? maxDate.month : 12;
+
+    final allShortMonthsNames = GXDateUtils.getShortMonthNames(locale);
+    return allShortMonthsNames.sublist(minValue - 1, maxValue);
   }
 
   List<String> get days {
@@ -101,7 +115,7 @@ class AwesomeDatePickerController extends ChangeNotifier {
     }
 
     final allDays =
-        AwesomeDateUtils.getMonthDays(selectedDate.year, selectedDate.month);
+        GXDateUtils.getMonthDays(selectedDate.year, selectedDate.month);
     return allDays.sublist(minValue - 1, maxValue);
   }
 }

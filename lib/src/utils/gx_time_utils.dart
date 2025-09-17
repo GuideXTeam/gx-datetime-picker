@@ -1,18 +1,10 @@
-import 'package:awesome_datetime_picker/awesome_datetime_picker.dart';
+import 'package:gx_datetime_picker/gx_datetime_picker.dart';
 
-class AwesomeTimeUtils {
+class GXTimeUtils {
   static const List<String> amPm = ["AM", "PM"];
 
-  static List<String> amPmHours = List.generate(12, (index) {
-    if (index == 0) {
-      return "12";
-    } else {
-      return (index + 1).toString();
-    }
-  });
-
   static String getAmPm(int hour) {
-    if (hour <= 12 && hour != 0) {
+    if (hour == 0 || (hour >= 1 && hour <= 11)) {
       return "AM";
     }
     return "PM";
@@ -21,12 +13,16 @@ class AwesomeTimeUtils {
   static int convertTo24HourFormat(int hour, String amPm) {
     if (amPm == "AM") {
       if (hour == 12) {
-        return 0;
+        return 0;  // 12 AM = midnight (0)
       } else {
-        return hour;
+        return hour;  // 1-11 AM = 1-11
       }
-    } else {
-      return hour + 12;
+    } else { // PM
+      if (hour == 12) {
+        return 12;  // 12 PM = noon (12)
+      } else {
+        return hour + 12;  // 1-11 PM = 13-23
+      }
     }
   }
 
@@ -40,7 +36,7 @@ class AwesomeTimeUtils {
     return (hour + 12) % 24;
   }
 
-  static bool isAfter(AwesomeTime time1, AwesomeTime time2) {
+  static bool isAfter(GXTime time1, GXTime time2) {
     if (time1.hour > time2.hour) {
       return true;
     } else if (time1.hour == time2.hour) {
@@ -49,7 +45,7 @@ class AwesomeTimeUtils {
     return false;
   }
 
-  static bool isBefore(AwesomeTime time1, AwesomeTime time2) {
+  static bool isBefore(GXTime time1, GXTime time2) {
     if (time1.hour < time2.hour) {
       return true;
     } else if (time1.hour == time2.hour) {

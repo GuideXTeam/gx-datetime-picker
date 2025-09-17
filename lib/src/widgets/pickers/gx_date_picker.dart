@@ -1,22 +1,22 @@
-import 'package:awesome_datetime_picker/src/controllers/awesome_date_picker_controller.dart';
-import 'package:awesome_datetime_picker/src/data/format.dart';
-import 'package:awesome_datetime_picker/src/data/locale.dart';
-import 'package:awesome_datetime_picker/src/data/picker_type.dart';
-import 'package:awesome_datetime_picker/src/models/awesome_date.dart';
-import 'package:awesome_datetime_picker/src/theme/awesome_date_picker_theme.dart';
-import 'package:awesome_datetime_picker/src/utils/awesome_date_utils.dart';
-import 'package:awesome_datetime_picker/src/utils/validation_utils.dart';
-import 'package:awesome_datetime_picker/src/widgets/custom/custom_item_picker_widget.dart';
+import 'package:gx_datetime_picker/src/controllers/gx_date_picker_controller.dart';
+import 'package:gx_datetime_picker/src/data/format.dart';
+import 'package:gx_datetime_picker/src/data/locale.dart';
+import 'package:gx_datetime_picker/src/data/picker_type.dart';
+import 'package:gx_datetime_picker/src/models/gx_date.dart';
+import 'package:gx_datetime_picker/src/theme/gx_date_picker_theme.dart';
+import 'package:gx_datetime_picker/src/utils/gx_date_utils.dart';
+import 'package:gx_datetime_picker/src/utils/validation_utils.dart';
+import 'package:gx_datetime_picker/src/widgets/custom/custom_item_picker_widget.dart';
 import 'package:flutter/material.dart';
 
-class AwesomeDatePicker extends StatefulWidget {
-  AwesomeDatePicker({
+class GXDatePicker extends StatefulWidget {
+  GXDatePicker({
     super.key,
     this.minDate,
     this.maxDate,
     this.initialDate,
     this.locale = LocaleType.en,
-    this.dateFormat = AwesomeDateFormat.dMy,
+    this.dateFormat = GXDateFormat.dMy,
     this.theme,
     this.onChanged,
     this.backgroundColor,
@@ -38,25 +38,25 @@ class AwesomeDatePicker extends StatefulWidget {
         );
 
   /// The minimum selectable date for the date picker (default 1/1/1900).
-  final AwesomeDate? minDate;
+  final GXDate? minDate;
 
   /// The maximum selectable date for the date picker (default 31/12/2100).
-  final AwesomeDate? maxDate;
+  final GXDate? maxDate;
 
   /// The initial date displayed when the picker is first shown (default current date).
-  final AwesomeDate? initialDate;
+  final GXDate? initialDate;
 
   /// The locale to use for displaying the date format (default [LocaleType.en]).
   final LocaleType locale;
 
   /// The format of the date to be displayed in the picker (default [AwesomeDateFormat.dMy]).
-  final AwesomeDateFormat dateFormat;
+  final GXDateFormat dateFormat;
 
   /// The theme for customizing the appearance of the date picker (year, month, day themes).
-  final AwesomeDatePickerTheme? theme;
+  final GXDatePickerTheme? theme;
 
   /// A callback function that is triggered when the selected date changes.
-  final ValueChanged<AwesomeDate>? onChanged;
+  final ValueChanged<GXDate>? onChanged;
 
   /// The background color of the date picker.
   /// This value is overridden by the value passed in the theme's backgroundColor property.
@@ -88,19 +88,19 @@ class AwesomeDatePicker extends StatefulWidget {
   final double? itemWidth;
 
   @override
-  State<AwesomeDatePicker> createState() => _AwesomeDatePickerState();
+  State<GXDatePicker> createState() => _GXDatePickerState();
 }
 
-class _AwesomeDatePickerState extends State<AwesomeDatePicker> {
-  late final AwesomeDatePickerController _controller;
+class _GXDatePickerState extends State<GXDatePicker> {
+  late final GXDatePickerController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    _controller = AwesomeDatePickerController(
-      minDate: widget.minDate ?? AwesomeDate(year: 1900, month: 1, day: 1),
-      maxDate: widget.maxDate ?? AwesomeDate(year: 2100, month: 12, day: 31),
+    _controller = GXDatePickerController(
+      minDate: widget.minDate ?? GXDate(year: 1900, month: 1, day: 1),
+      maxDate: widget.maxDate ?? GXDate(year: 2100, month: 12, day: 31),
       locale: widget.locale,
       initialDate: widget.initialDate,
     );
@@ -175,7 +175,7 @@ class _AwesomeDatePickerState extends State<AwesomeDatePicker> {
                         : "text_month_picker 3"),
             items: _controller.monthsNames,
             initialIndex: _controller.monthsNames.indexOf(
-                AwesomeDateUtils.getMonthNames(
+                GXDateUtils.getMonthNames(
                     widget.locale)[_controller.selectedDate.month - 1]),
             theme: widget.theme?.monthTheme,
             backgroundColor: widget.backgroundColor,
@@ -216,6 +216,33 @@ class _AwesomeDatePickerState extends State<AwesomeDatePicker> {
               _controller.onSelectedMonthNumberChanged(newValue);
               setState(() {});
 
+              widget.onChanged?.call(_controller.selectedDate);
+            },
+          );
+        } else if (widget.dateFormat.value[index] == PickerType.month_text_short) {
+          return CustomItemPicker(
+            key: ValueKey(
+                _controller.selectedDate.year == _controller.minDate.year
+                    ? "short_text_month_picker 1"
+                    : _controller.selectedDate.year == _controller.maxDate.year
+                        ? "short_text_month_picker 2"
+                        : "short_text_month_picker 3"),
+            items: _controller.shortMonthsNames,
+            initialIndex: _controller.shortMonthsNames.indexOf(
+                GXDateUtils.getShortMonthNames(
+                    widget.locale)[_controller.selectedDate.month - 1]),
+            theme: widget.theme?.monthTheme,
+            backgroundColor: widget.backgroundColor,
+            selectorColor: widget.selectorColor,
+            fadeEffect: widget.fadeEffect,
+            selectedTextStyle: widget.selectedTextStyle,
+            unselectedTextStyle: widget.unselectedTextStyle,
+            visibleItemCount: widget.visibleItemCount,
+            itemHeight: widget.itemHeight,
+            itemWidth: widget.itemWidth,
+            onSelectedItemChanged: (newValue) {
+              _controller.onSelectedShortMonthNameChanged(newValue);
+              setState(() {});
               widget.onChanged?.call(_controller.selectedDate);
             },
           );
